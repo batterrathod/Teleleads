@@ -1,25 +1,27 @@
 name: Run Telegram Bot
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/5 * * * *"   # every 5 minutes
+  workflow_dispatch:         # manual run button
 
 jobs:
-  bot:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🟢 Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: "20"
 
-      - name: Install
-        run: npm install node-telegram-bot-api axios csv-parser json2csv cloudinary streamifier
+      - name: 📦 Install dependencies
+        run: |
+          npm install node-telegram-bot-api axios csv-parser json2csv cloudinary streamifier
 
-      - name: Run Bot
-        run: timeout 5h node app.js || true
+      - name: 🚀 Run bot (60 seconds)
+        run: |
+          timeout 60 node app.js
